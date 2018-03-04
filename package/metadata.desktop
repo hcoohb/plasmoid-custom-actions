@@ -1,0 +1,18 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Custom Actions
+Comment=A launcher that opens a popup panel with customs actions
+Type=Service
+X-KDE-ParentApp=
+X-KDE-PluginInfo-Author=Fabien Valthier
+X-KDE-PluginInfo-Email=hcoohb@gmail.com
+X-KDE-PluginInfo-License=GPL2
+X-KDE-PluginInfo-Name=org.kde.customActions
+X-KDE-PluginInfo-Version=1.2
+X-KDE-PluginInfo-Website=https://github.com/dfaust/plasma-applet-popup-launcher
+X-KDE-ServiceTypes=Plasma/Applet
+X-Plasma-API=declarativeappletscript
+X-Plasma-MainScript=ui/main.qml
+X-Plasma-RemoteLocation=
+X-KDE-PluginInfo-Category=Application Launchers
+Icon=system-run
