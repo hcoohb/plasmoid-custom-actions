@@ -23,15 +23,49 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
 
 Dialog {
     id: appMenuDialog
-    title: i18n('Choose an application')
-    standardButtons: StandardButton.Cancel
+    title: i18n('Add a custom action')
+    standardButtons: StandardButton.Cancel | StandardButton.Ok 
 
     width: 300
-    height: 400
+    //height: 200
 
-    property string selectedMenuId: ''
+    property alias selectedMenuName: menuName.text
+    property alias selectedMenuIcon: menuIcon.text
+    property alias selectedMenuPath: menuPath.text
+    
+    GridLayout {
+        columns: 2
+        anchors.fill: parent
 
-    PlasmaCore.DataSource {
+        Label {
+            text: i18n('Name:')
+        }
+
+        TextField {
+            id: menuName
+            Layout.fillWidth: true
+        }
+
+        Label {
+            text: i18n('Icon:')
+        }
+        
+        TextField {
+            id: menuIcon
+            Layout.fillWidth: true
+        }
+        
+        Label {
+            text: i18n('Command:')
+        }
+        
+        TextField {
+            id: menuPath
+            Layout.fillWidth: true
+        }
+    }
+
+    /*PlasmaCore.DataSource {
         id: appsSource
         engine: 'apps'
         connectedSources: sources
@@ -43,7 +77,7 @@ Dialog {
 
     ScrollView {
         width: parent.width
-        height: 400
+        height: 200
 
         ListView {
             id: apps
@@ -149,5 +183,5 @@ Dialog {
                 listMenuEntries(entry)
             }
         }
-    }
+    }*/
 }
