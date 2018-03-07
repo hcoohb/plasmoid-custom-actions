@@ -169,7 +169,7 @@ Item {
                 id: menuitem_iconCol
                 role: 'menuitem_icon'
                 title: i18n('Icon')
-                width: parent.width * 0.1
+                //width: parent.width * 0.1
                 
                 delegate: PlasmaCore.IconItem {
                                             anchors.fill: parent
@@ -210,7 +210,7 @@ Item {
             
             TableViewColumn {
                 title: i18n('Edit')
-                width: parent.width * 0.2
+                //width: parent.width * 0.3
                 
                 delegate: Item {
                     
@@ -281,14 +281,77 @@ Item {
                 }
             }  
         
-         Item{
+        Item{
             width:2
             height:2
         }
-
+        
+        Button {
+            iconName: 'folder'
+            text: i18n('Export to file')
+            onClicked: {
+                exportFileDialog.open()
+            }
+        }
+        Item{
+            width:2
+            height:2
+        }
+        
+        Button {
+            iconName: 'folder'
+            text: i18n('Import from file')
+            onClicked: {
+                importFileDialog.open()
+            }
+        }
+        Item{
+            width:2
+            height:2
+        }
+    }
   
     
     //-----------------------------End of UI
+    FileDialog {
+        id: importFileDialog
+        nameFilters: ["Text files (*.txt)", "All files (*)"]
+        onAccepted: {
+            actionsModel.clear()
+            JSON.parse(openFile(importFileDialog.fileUrl)).forEach(function (actionObj) {
+                actionsModel.append({
+                    menuitem_name: actionObj.menuitem_name,
+                    menuitem_icon: actionObj.menuitem_icon,
+                    menuitem_path: actionObj.menuitem_path
+                })
+            })
+            actionsModelChanged()
+        }
+            //textEdit.text = openFile(importFileDialog.fileUrl)
+    }
+    
+    function openFile(fileUrl) {
+        var request = new XMLHttpRequest();
+        request.open("GET", fileUrl, false);
+        request.send(null);
+        return request.responseText;
+    }
+    
+    
+    FileDialog {
+        id: exportFileDialog
+        selectExisting: false
+        nameFilters: ["Text files (*.txt)", "All files (*)"]
+        onAccepted: saveFile(exportFileDialog.fileUrl)
+    }
+    
+    function saveFile(fileUrl) {
+        var request = new XMLHttpRequest();
+        request.open("PUT", fileUrl, false);
+        request.send(cfg_actions);
+        return request.status;
+    }
+
     
     FileDialog {
         id: iconDialog

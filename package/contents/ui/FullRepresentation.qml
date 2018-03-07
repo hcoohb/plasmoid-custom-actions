@@ -68,52 +68,6 @@ Item {
     
     ListModel {
         id: menuModel
-
-        /*ListElement {
-            menuitem_name: "Keyboard on"
-            menuitem_path: "/home/hcooh/Documents/linux/scripts/keyboard.sh on"
-            menuitem_icon: "input-keyboard-virtual-on"
-        }
-        ListElement {
-            menuitem_name: "Keyboard off"
-            menuitem_path: "/home/hcooh/Documents/linux/scripts/keyboard.sh off"
-            menuitem_icon: "input-keyboard-virtual-off"
-        }
-        ListElement {
-            menuitem_name: "Rotate Normal"
-            menuitem_path: "/home/hcooh/Documents/linux/scripts/rotate.sh normal"
-            menuitem_icon: "computer-symbolic"
-        }
-        ListElement {
-            menuitem_name: "Rotate Inverted"
-            menuitem_path: "/home/hcooh/Documents/linux/scripts/rotate.sh inverted"
-            menuitem_icon: "circular-arrow-shape"
-        }
-        ListElement {
-            menuitem_name: "Rotate Right"
-            menuitem_path: "/home/hcooh/Documents/linux/scripts/rotate.sh right"
-            menuitem_icon: "edit-redo-symbolic"
-        }
-        ListElement {
-            menuitem_name: "Rotate Left"
-            menuitem_path: "/home/hcooh/Documents/linux/scripts/rotate.sh left"
-            menuitem_icon: "edit-undo-symbolic"
-        }
-        ListElement {
-            menuitem_name: "Resolution Max"
-            menuitem_path: "xrandr --output eDP1 --mode 1920x1080"
-            menuitem_icon: "computer"
-        }
-        ListElement {
-            menuitem_name: "Resolution Med"
-            menuitem_path: "xrandr --output eDP1 --mode 1600x900"
-            menuitem_icon: "computer"
-        }
-        ListElement {
-            menuitem_name: "Resolution Min"
-            menuitem_path: "xrandr --output eDP1 --mode 1368x768"
-            menuitem_icon: "computer"
-        }*/
     }
 
     PlasmaExtras.ScrollArea {

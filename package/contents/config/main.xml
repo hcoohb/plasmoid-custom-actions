@@ -13,8 +13,7 @@
             <default>system-run</default>
         </entry>
         <entry name="actions" type="String">
-            <default>[{"menuitem_name": "Name of entry", "menuitem_icon": "computer", "menuitem_path": "command.sh param1"},
-                {"menuitem_name": "Name of entry2", "menuitem_icon": "tag-folder", "menuitem_path": "command22.sh param1"}]</default>
+            <default></default>
         </entry>
         <entry name="widgetWidth" type="Int">
             <default>250</default>
