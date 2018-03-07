@@ -2,7 +2,7 @@
 
 Plasma 5 custom actions 
 
-![Screen shot of plasma-applet-popup-launcher](popup-launcher.png)
+![Screen shot of plasmoid-custom-actions](plasmoid-custom-actions.png)
 
 ## Installation
 
