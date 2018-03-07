@@ -32,7 +32,21 @@ Item {
 
     Layout.preferredWidth: Layout.minimumWidth
     Layout.preferredHeight: Layout.minimumHeight
-
+    
+    property string actionsJsonStr: plasmoid.configuration.actions
+    
+    
+    onActionsJsonStrChanged: {
+        menuModel.clear()
+        getActionsArray().forEach(function (actionObj) {
+            menuModel.append({
+                menuitem_name: actionObj.menuitem_name,
+                menuitem_icon: actionObj.menuitem_icon,
+                menuitem_path: actionObj.menuitem_path
+            })
+        })
+    }
+    
     Component.onCompleted: {
 
     }
@@ -53,9 +67,9 @@ Item {
     
     
     ListModel {
-        id: menumodel
+        id: menuModel
 
-        ListElement {
+        /*ListElement {
             menuitem_name: "Keyboard on"
             menuitem_path: "/home/hcooh/Documents/linux/scripts/keyboard.sh on"
             menuitem_icon: "input-keyboard-virtual-on"
@@ -99,7 +113,7 @@ Item {
             menuitem_name: "Resolution Min"
             menuitem_path: "xrandr --output eDP1 --mode 1368x768"
             menuitem_icon: "computer"
-        }
+        }*/
     }
 
     PlasmaExtras.ScrollArea {
@@ -109,7 +123,7 @@ Item {
             id: listView
             anchors.fill: parent
 
-            model: menumodel
+            model: menuModel
 
             highlight: PlasmaComponents.Highlight {}
             highlightMoveDuration: 0
@@ -167,5 +181,11 @@ Item {
                 }
             }
         }
+    }
+    
+    function getActionsArray() {
+        var cfgActions = plasmoid.configuration.actions
+        //console.log('Reading places from configuration: ' + cfgActions)
+        return JSON.parse(cfgActions)
     }
 }
