@@ -92,7 +92,6 @@ Item {
     }
     
     Component.onCompleted: {
-        var actions = getActionsArray() //usefull ????
         getActionsArray().forEach(function (actionObj) {
             actionsModel.append({
                 menuitem_name: actionObj.menuitem_name,
@@ -102,19 +101,6 @@ Item {
         })
     }
     
-    function actionsModelChanged() {
-        var newActionsArray = []
-        for (var i = 0; i < actionsModel.count; i++) {
-            var actionObj = actionsModel.get(i)
-            newActionsArray.push({
-                menuitem_name: actionObj.menuitem_name,
-                menuitem_icon: actionObj.menuitem_icon,
-                menuitem_path: actionObj.menuitem_path
-            })
-        }
-        cfg_actions = JSON.stringify(newActionsArray)
-        console.log('[custom-actions] actions: ' + cfg_actions)
-    }
     
     GridLayout {
         columns: 2
@@ -188,16 +174,7 @@ Item {
                 delegate: PlasmaCore.IconItem {
                                             anchors.fill: parent
                                             source: styleData.value
-                                            //active: isHovered
                                         }
-                    /*Label {
-                    text: styleData.value
-                    elide: Text.ElideRight
-                    anchors.left: parent ? parent.left : undefined
-                    anchors.leftMargin: 5
-                    anchors.right: parent ? parent.right : undefined
-                    anchors.rightMargin: 5
-                }*/
             }
             
             TableViewColumn {
@@ -309,206 +286,9 @@ Item {
             height:2
         }
 
-       /* ColumnLayout {
-            Layout.columnSpan: 2
-            Rectangle {
-                width: 300
-                height: 200
-                border {
-                    width: 1
-                    color: "lightgrey"
-                }
-                radius: 2
-                color: "#20FFFFFF"
-
-                ScrollView {
-                    anchors.fill: parent
-
-                    ListView {
-                        id: apps
-                        anchors.fill: parent
-                        clip: true
-                        model: actionsModel
-
-                        delegate: Item {
-                            id: appItem
-                            width: parent.width
-                            height: units.iconSizes.smallMedium + 2*units.smallSpacing
-
-                            property bool isHovered: false
-                            property bool isUpHovered: false
-                            property bool isDownHovered: false
-                            property bool isRemoveHovered: false
-
-                            MouseArea {
-                                id: container
-                                anchors.fill: parent
-
-                                hoverEnabled: true
-                                onEntered: {
-                                    apps.currentIndex = index
-                                    isHovered = true
-                                }
-                                onExited: {
-                                    isHovered = false
-                                }
-
-                                RowLayout {
-                                    x: units.smallSpacing
-                                    y: units.smallSpacing
-
-                                    Item { // Hack - since setting the dimensions of PlasmaCore.IconItem won't work
-                                        height: units.iconSizes.smallMedium
-                                        width: height
-
-                                        PlasmaCore.IconItem {
-                                            anchors.fill: parent
-                                            source: menuitem_icon
-                                            active: isHovered
-                                        }
-                                    }
-
-                                    Label {
-                                        text: menuitem_name
-                                        height: parent.height
-                                        verticalAlignment: Text.AlignVCenter
-                                    }
-                                }
-
-                                Rectangle {
-                                    height: units.iconSizes.smallMedium
-                                    width: 3*units.iconSizes.smallMedium + 4*units.smallSpacing
-                                    anchors.right: parent.right
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    visible: isHovered
-
-                                    radius: units.iconSizes.smallMedium / 4
-                                    color: theme.viewBackgroundColor
-                                    opacity: 0.8
-
-                                    Behavior on opacity { NumberAnimation { duration: units.shortDuration * 3 } }
-
-                                    RowLayout {
-                                        x: units.smallSpacing
-                                        spacing: units.smallSpacing
-
-                                        Item {
-                                            id: upIcon
-                                            height: units.iconSizes.smallMedium
-                                            width: height
-                                            opacity: 1.0
-
-                                            PlasmaCore.IconItem {
-                                                anchors.fill: parent
-                                                source: 'arrow-up'
-                                                active: isUpHovered
-
-                                                MouseArea {
-                                                    anchors.fill: parent
-
-                                                    hoverEnabled: true
-                                                    onEntered: {
-                                                        isUpHovered = true
-                                                    }
-                                                    onExited: {
-                                                        isUpHovered = false
-                                                    }
-
-                                                    onClicked: {
-                                                        var m = moveUp(apps.model, modelData)
-                                                        cfg_apps = m
-                                                        apps.model = m
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        Item {
-                                            id: downIcon
-                                            height: units.iconSizes.smallMedium
-                                            width: height
-                                            opacity: 1.0
-
-                                            PlasmaCore.IconItem {
-                                                anchors.fill: parent
-                                                source: 'arrow-down'
-                                                active: isDownHovered
-
-                                                MouseArea {
-                                                    anchors.fill: parent
-
-                                                    hoverEnabled: true
-                                                    onEntered: {
-                                                        isDownHovered = true
-                                                    }
-                                                    onExited: {
-                                                        isDownHovered = false
-                                                    }
-
-                                                    onClicked: {
-                                                        var m = moveDown(apps.model, modelData)
-                                                        cfg_apps = m
-                                                        apps.model = m
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        Item {
-                                            id: removeIcon
-                                            height: units.iconSizes.smallMedium
-                                            width: height
-                                            opacity: 1.0
-
-                                            PlasmaCore.IconItem {
-                                                anchors.fill: parent
-                                                source: 'remove'
-                                                active: isRemoveHovered
-
-                                                MouseArea {
-                                                    anchors.fill: parent
-
-                                                    hoverEnabled: true
-                                                    onEntered: {
-                                                        isRemoveHovered = true
-                                                    }
-                                                    onExited: {
-                                                        isRemoveHovered = false
-                                                    }
-
-                                                    onClicked: {
-                                                        var m = apps.model
-                                                        var i = null
-                                                        while ((i = m.indexOf(modelData)) !== -1) {
-                                                            m.splice(i, 1)
-                                                        }
-                                                        cfg_apps = m
-                                                        apps.model = m
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        /*Component.onCompleted: {
-                            model = plasmoid.configuration.apps
-                        }
-                    }
-                }
-            }
-        
-                 
-        }
-    */
-    }
+  
     
-    
-    
-    
-    //End of UI
+    //-----------------------------End of UI
     
     FileDialog {
         id: iconDialog
@@ -520,6 +300,19 @@ Item {
         }
     }
     
+    function actionsModelChanged() {
+        var newActionsArray = []
+        for (var i = 0; i < actionsModel.count; i++) {
+            var actionObj = actionsModel.get(i)
+            newActionsArray.push({
+                menuitem_name: actionObj.menuitem_name,
+                menuitem_icon: actionObj.menuitem_icon,
+                menuitem_path: actionObj.menuitem_path
+            })
+        }
+        cfg_actions = JSON.stringify(newActionsArray)
+        console.log('[custom-actions] actions: ' + cfg_actions)
+    }
 
    function moveUp(m, value) {
         var index = m.indexOf(value)
@@ -546,9 +339,10 @@ Item {
 
         return m
     }
+    
     function getActionsArray() {
         var cfgActions = plasmoid.configuration.actions
-        console.log('Reading places from configuration: ' + cfgActions)
+        //console.log('Reading places from configuration: ' + cfgActions)
         return JSON.parse(cfgActions)
     }
 }
