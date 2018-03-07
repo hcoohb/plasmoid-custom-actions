@@ -115,8 +115,14 @@ Item {
             id: title
         }
 
-        Label {
-            text: i18n('Icon:')
+        RowLayout{
+            Label {
+                text: i18n('Icon:')
+            }
+            PlasmaCore.IconItem {
+                implicitHeight: units.iconSizes.medium
+                source: icon.text
+            }
         }
 
         RowLayout {
@@ -158,10 +164,10 @@ Item {
         }
         
         TableView {
-            id: placesTable
+            id: menuitem_Table
             width: parent.width
             model: actionsModel
-            Layout.preferredHeight: 150
+            Layout.preferredHeight: 160
             Layout.preferredWidth: parent.width
             Layout.columnSpan: 2
             
@@ -169,12 +175,13 @@ Item {
                 id: menuitem_iconCol
                 role: 'menuitem_icon'
                 title: i18n('Icon')
-                //width: parent.width * 0.1
+                width: parent.width * 0.08
                 
                 delegate: PlasmaCore.IconItem {
-                                            anchors.fill: parent
-                                            source: styleData.value
-                                        }
+                    anchors.fill: parent
+                    source: styleData.value
+                }
+                
             }
             
             TableViewColumn {
@@ -293,9 +300,9 @@ Item {
                 exportFileDialog.open()
             }
         }
-        Item{
-            width:2
-            height:2
+        Label{
+            text: "(Warning: Overwriting a file will NOT work!)"
+            Layout.fillWidth: true
         }
         
         Button {
@@ -342,7 +349,9 @@ Item {
         id: exportFileDialog
         selectExisting: false
         nameFilters: ["Text files (*.txt)", "All files (*)"]
-        onAccepted: saveFile(exportFileDialog.fileUrl)
+        onAccepted: {
+        saveFile(exportFileDialog.fileUrl)
+        }
     }
     
     function saveFile(fileUrl) {
@@ -374,7 +383,7 @@ Item {
             })
         }
         cfg_actions = JSON.stringify(newActionsArray)
-        console.log('[custom-actions] actions: ' + cfg_actions)
+        //console.log('[custom-actions] actions: ' + cfg_actions)
     }
 
    function moveUp(m, value) {
